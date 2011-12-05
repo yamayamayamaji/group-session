@@ -1,6 +1,6 @@
 {
   "name": "DcomGS3Helper",
-  "version": "0.1",
+  "version": "0.1.1",
   "description": "UI helper for GroupSession3 on Dcom Server",
 
   "content_scripts": [
@@ -12,5 +12,6 @@
       "all_frames": true
     }
   ],
-  "permissions": []
+  "permissions": [],
+  "update_url": "https://github.com/yamayamayamaji/group-session/blob/master/chrome-extention-updates.xml"
 }

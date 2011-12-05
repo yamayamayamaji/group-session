@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<gupdate xmlns='http://www.google.com/update2/response' protocol='0.1.1'>
+  <app appid='bggfmmmbeeigdcnijmnajdmhcfmgmmhe'>
+    <updatecheck codebase='https://github.com/yamayamayamaji/group-session/blob/master/chrome-extention-updates.xml' version='2.0' />
+  </app>
+</gupdate>
