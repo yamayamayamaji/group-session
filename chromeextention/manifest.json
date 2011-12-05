@@ -1,0 +1,16 @@
+{
+  "name": "DcomGS3Helper",
+  "version": "0.1",
+  "description": "UI helper for GroupSession3 on Dcom Server",
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://118.243.175.45/gsession3/*"
+      ],
+      "js": ["jquery.js", "content.js"],
+      "all_frames": true
+    }
+  ],
+  "permissions": []
+}
