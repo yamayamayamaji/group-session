@@ -101,7 +101,7 @@ console.log(locPath);
 		},
 		//更新されたのを通知
 		notifyUpdate: function(){
-			var txt = 'DcomGS3Helper was upgraded to ' + this.prevVer + ' (from ' + this.curVer + ')... ';
+			var txt = 'DcomGS3Helper was upgraded to ' + this.curVer + ' (from ' + this.prevVer + ')... ';
 			var path = chrome.extension.getURL('/updates.txt');
 			var anc = $('<a href="#" onclick="window.open(\'' + path + '\')">show details</a>').addClass('sc_ttl_sat');
 			$('<div>').text(txt).append(anc)
