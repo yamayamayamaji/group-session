@@ -14,6 +14,7 @@ $CS = {
 };
 
 STORE_KEY = {
+	PREV_VERSION: 'prev_version',
 	VERSION_CONFIRMED: 'version_confirmed',
 	REG_QUE: 'reg_que',
 	PROC_SCOPE: 'process_scope',
@@ -80,7 +81,7 @@ console.log(locPath);
 	versionMgr: {
 		//初期化
 		init: function(){
-			this.prevVer = localStorage['prev_version'];
+			this.prevVer = localStorage[STORE_KEY.PREV_VERSION];
 			$CS.getManifest($.proxy(function(manifest){
 				this.curVer = manifest.version;
 				if (this.isUpdated()) {
@@ -92,11 +93,11 @@ console.log(locPath);
 		},
 		//アップデートされているか
 		isUpdated: function(){
-			return (this.prevVer && this.prevVer != this.curVer);
+			return (!this.prevVer || (this.prevVer != this.curVer));
 		},
 		//以前のバージョンとして記録している情報を更新
 		updatePrevVersion: function(){
-			localStorage['prev_version'] = this.curVer;
+			localStorage[STORE_KEY.PREV_VERSION] = this.curVer;
 		},
 		//更新されたのを通知
 		notifyUpdate: function(){
