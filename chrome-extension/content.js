@@ -30,8 +30,8 @@ GS3Helper = {
 	init: function(){
 //		var locPath = location.pathname;
 		var locPath = $('form').attr('action');
-console.log(locPath);
 		this.retryMgr.init();
+
 		if (locPath) {
 			if (locPath.match('/main/man001.do')) {
 				//バージョン更新確認
