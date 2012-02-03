@@ -34,12 +34,11 @@ console.log(locPath);
 		this.retryMgr.init();
 		if (locPath) {
 			if (locPath.match('/main/man001.do')) {
-//sessionStorage[STORE_KEY.VERSION_CONFIRMED] = '';
 				//バージョン更新確認
 				if (sessionStorage[STORE_KEY.VERSION_CONFIRMED] != 'true') {
 					this.versionMgr.init();
 				}
-				this.man001();
+				this.man001.init();
 			}
 			if (locPath.match('/schedule/sch020.do')) {
 				this.sch020.init();
@@ -130,39 +129,58 @@ console.log(locPath);
 
 	/**
 	 * /main/man001.do読込時に実行
-	 * ・月間スケジュール表示ボタン押下後の遷移先初期表示を [全社員]&[グループ＋所属ユーザー] に設定
- * ・月間スケジュール表示ボタン押下後の遷移先初期表示を localStorageの内容に設定
+	 * ・スケジュール表示ボタン押下後の遷移先初期表示を 個人設定に合わせる
+	 *   (スケジュール画面表示後にリロードしなくて済むようになるだけ)
 	 */
-	man001: function(){
-/*		var monthSchBtn = $('.btn_base1s_1'),
-			schForm = $('form[name=schmainForm]');
+	man001: {
+		//初期化
+		init: function(){
+			var monthSchBtn = $('.btn_base1s_1'),
+				pweekSchBtn = $('.btn_base1s_2'),
+				schForm = $('form[name=schmainForm]');
 
-		//対象エレメントが存在しない間は待機
-		if (!monthSchBtn.length || !schForm.length) {
-			if (this.retryMgr.isRetryable('man001')) {
-				this.retryMgr.countUp('man001');
-				setTimeout($.proxy(arguments.callee, this), 1);
+			//対象エレメントが存在しない間は待機
+			if (!monthSchBtn.length || !pweekSchBtn.length || !schForm.length) {
+				if (GS3Helper.retryMgr.isRetryable('man001')) {
+					GS3Helper.retryMgr.countUp('man001');
+					setTimeout($.proxy(arguments.callee, GS3Helper), 1);
+				}
+				return;
 			}
-			return;
-		}
 
-		//月間スケジュールボタンにラッパーを設定
-		monthSchBtn.wrap('<span>').parent().get(0)
-		.addEventListener('click', function(){
-			//月間スケジュール画面遷移時にポストするパラメータを設定
-			//([全社員]&[グループ＋所属ユーザー])
-			var prms = [
-				{name: 'sch020SelectUsrSid', value: localStorage[STORE_KEY.MONTH_SCH_DEF_MEMBER]}
-			];
-			$.each(prms, function(i, prm){
-				$('<input>').attr({
-					type: 'hidden',
-					name: prm.name,
-					value: prm.value
-				}).appendTo(schForm);
+			$([{
+				btn: monthSchBtn,
+				prms: {
+					sch020SelectUsrSid: localStorage[STORE_KEY.MONTH_SCH_DEF_MEMBER]
+				},
+				procScope: 'sch020'
+			}, {
+				btn: pweekSchBtn,
+				prms: {
+					sch010DspGpSid: localStorage[STORE_KEY.SCH_DEF_GROUP],
+					sch100SelectUsrSid: localStorage[STORE_KEY.PWEEK_SCH_DEF_MEMBER]
+				},
+				procScope: 'sch200'
+			}]).each(function(i, target){
+				//遷移ボタンにラッパーを設定
+				target.btn.wrap('<span>').parent().get(0)
+				.addEventListener('click', function(){
+					//スケジュール画面遷移時に一緒にポストされるようにhiddenを追加
+					var prms = [
+						{name: 'sch020SelectUsrSid', value: localStorage[STORE_KEY.MONTH_SCH_DEF_MEMBER]}
+					];
+					$.each(target.prms, function(k, v){
+						$('<input>').attr({
+							type: 'hidden',
+							name: k,
+							value: v
+						}).appendTo(schForm);
+					});
+					GS3Helper.setProcScope(target.procScope);
+				}, true);
 			});
-		}, true);
-*/	},
+		}
+	},
 
 	/**
 	 * /schedule/sch010.do管理オブジェクト
