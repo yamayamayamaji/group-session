@@ -294,6 +294,7 @@ console.log(locPath);
 				label: '月間：'
 			}, {
 				url: 'sch200.do',
+				opt: { sch100SelectUsrSid: '' },
 				key: STORE_KEY.PWEEK_SCH_DEF_MEMBER,
 				selName: 'sch100SelectUsrSid',
 				selProp: '$defPWeekMbr',
@@ -301,18 +302,24 @@ console.log(locPath);
 			}];
 			$.each(params, $.proxy(function(i, p){
 				var mbrId = this[p.selProp] ? this[p.selProp].val() : null;
-				$.post('../schedule/' + p.url, { sch010DspGpSid: gpId }, $.proxy(function(res){
+				$.post('../schedule/' + p.url, $.extend({ sch010DspGpSid: gpId }, p.opt), $.proxy(function(res){
 					var tmp = sessionStorage[STORE_KEY.REG_QUE] ? JSON.parse(sessionStorage[STORE_KEY.REG_QUE])[p.key] : null;
 					var def = mbrId || tmp || localStorage[p.key] || '';
 					var sel = $(res).find('select[name=' + p.selName + ']')
 								.removeAttr('onchange').unbind().val(def);
-					if (this[p.selProp]) { this[p.selProp].parent().remove(); }
-					this[p.selProp] = sel;
 
-					var label = $('<span>').text(p.label).addClass('text_bb1')
-								.css({width: '80px', display: 'inline-block', textAlign: 'right', paddingRight: '5px'});
-					$('<div>').appendTo(this.$mbrContainer).append(sel);
-					sel.before(label).after('<br>');
+					//selectboxが存在する場合は中身だけ入れ替え(初回以外)
+					if (this[p.selProp]) {
+						this[p.selProp].find('option').remove().end()
+							.append(sel.find('option'));
+					//selectboxが存在しない場合はラベルも作る(初回)
+					} else {
+						this[p.selProp] = sel;
+						$('<div>').appendTo(this.$mbrContainer).append(sel);
+						var label = $('<span>').text(p.label).addClass('text_bb1')
+									.css({width: '80px', display: 'inline-block', textAlign: 'right', paddingRight: '5px'});
+						sel.before(label).after('<br>');
+					}
 				}, this));
 			}, this));
 		}

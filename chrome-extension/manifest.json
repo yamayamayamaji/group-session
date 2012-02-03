@@ -1,6 +1,6 @@
 {
   "name": "DcomGS3Helper",
-  "version": "0.1.1.15",
+  "version": "0.1.1.16",
   "description": "UI helper for GroupSession3 on Dcom Server",
   "content_scripts": [
     {
