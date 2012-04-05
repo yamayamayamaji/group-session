@@ -1,16 +1,20 @@
 {
   "name": "DcomGS3Helper",
-  "version": "0.1.1.21",
+  "version": "0.1.2.0",
   "description": "UI helper for GroupSession3 on Dcom Server",
   "content_scripts": [
     {
       "matches": [
+        "http://118.243.175.45/gsession3/*",
         "https://118.243.175.45/gsession3/*"
       ],
       "js": ["jquery.js", "content.js"],
       "all_frames": true
     }
   ],
-  "permissions": ["https://118.243.175.45/gsession3/*"],
+  "permissions": [
+    "http://118.243.175.45/gsession3/*",
+    "https://118.243.175.45/gsession3/*"
+  ],
   "update_url": "https://raw.github.com/yamayamayamaji/group-session/master/chrome-extension-updates.xml"
 }
